@@ -1,4 +1,4 @@
-package com.github.documents.jpa.entityParser.files;
+package documents.jpa.entityParser.files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import java.sql.Timestamp;
 import java.util.*;
 
-import com.github.documents.jpa.entityParser.files.CatalogueParser;
+import documents.jpa.entityParser.files.CatalogueParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,12 +18,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.documents.dto.files.catalogues.CatalogueDto;
-import com.github.documents.jpa.entity.files.catalogues.Catalogue;
-import com.github.documents.jpa.entity.user.User;
-import com.github.documents.jpa.exceprions.IdNotFoundException;
-import com.github.documents.jpa.repository.CatalogueRepository;
-import com.github.documents.jpa.repository.UserRepository;
+import documents.dto.files.catalogues.CatalogueDto;
+import documents.jpa.entity.files.catalogues.Catalogue;
+import documents.jpa.entity.user.User;
+import documents.jpa.exceprions.IdNotFoundException;
+import documents.jpa.repository.CatalogueRepository;
+import documents.jpa.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class CatalogueParserTest {

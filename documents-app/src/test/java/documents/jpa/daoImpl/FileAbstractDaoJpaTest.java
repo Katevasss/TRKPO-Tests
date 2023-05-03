@@ -1,15 +1,15 @@
-package com.github.documents.jpa.daoImpl;
+package documents.jpa.daoImpl;
 
-import com.github.documents.dao.FileAbstractDao;
-import com.github.documents.dto.restdtos.ManageAccessDto;
-import com.github.documents.dto.user.UserDto;
-import com.github.documents.jpa.daoImpl.FileAbstractDaoJpa;
-import com.github.documents.jpa.entity.files.FileAbstract;
-import com.github.documents.jpa.entity.user.User;
-import com.github.documents.jpa.entityParser.user.UserParser;
-import com.github.documents.jpa.exceprions.IdNotFoundException;
-import com.github.documents.jpa.repository.FileAbstractRepository;
-import com.github.documents.jpa.repository.UserRepository;
+import documents.dao.FileAbstractDao;
+import documents.dto.restdtos.ManageAccessDto;
+import documents.dto.user.UserDto;
+import documents.jpa.daoImpl.FileAbstractDaoJpa;
+import documents.jpa.entity.files.FileAbstract;
+import documents.jpa.entity.user.User;
+import documents.jpa.entityParser.user.UserParser;
+import documents.jpa.exceprions.IdNotFoundException;
+import documents.jpa.repository.FileAbstractRepository;
+import documents.jpa.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

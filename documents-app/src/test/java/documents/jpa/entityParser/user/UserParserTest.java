@@ -1,8 +1,8 @@
-package com.github.documents.jpa.entityParser.user;
+package documents.jpa.entityParser.user;
 
-import com.github.documents.dto.user.UserDto;
-import com.github.documents.jpa.entity.user.User;
-import com.github.documents.jpa.entity.user.UserRolesEnum;
+import documents.dto.user.UserDto;
+import documents.jpa.entity.user.User;
+import documents.jpa.entity.user.UserRolesEnum;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

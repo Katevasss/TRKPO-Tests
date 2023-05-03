@@ -20,4 +20,9 @@ public class DocumentType {
     public DocumentType(String name) {
         this.name = name;
     }
+
+    public DocumentType(long l, String name) {
+        this.name = name;
+    }
+
 }

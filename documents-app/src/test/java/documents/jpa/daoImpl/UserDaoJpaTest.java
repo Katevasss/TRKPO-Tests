@@ -1,14 +1,14 @@
-package com.github.documents.jpa.daoImpl;
+package documents.jpa.daoImpl;
 
-import com.github.documents.dao.UserDao;
-import com.github.documents.dto.user.UserDto;
-import com.github.documents.jpa.entity.user.User;
-import com.github.documents.jpa.entity.user.UserRolesEnum;
-import com.github.documents.jpa.entityParser.user.UserParser;
-import com.github.documents.jpa.exceprions.ConstraintsException;
-import com.github.documents.jpa.exceprions.IdNotFoundException;
-import com.github.documents.jpa.repository.UserRepository;
-import com.github.documents.jpa.daoImpl.UserDaoJpa;
+import documents.dao.UserDao;
+import documents.dto.user.UserDto;
+import documents.jpa.entity.user.User;
+import documents.jpa.entity.user.UserRolesEnum;
+import documents.jpa.entityParser.user.UserParser;
+import documents.jpa.exceprions.ConstraintsException;
+import documents.jpa.exceprions.IdNotFoundException;
+import documents.jpa.repository.UserRepository;
+import documents.jpa.daoImpl.UserDaoJpa;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

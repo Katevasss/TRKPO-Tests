@@ -1,12 +1,12 @@
-package com.github.documents.jpa.entityParser.files;
+package documents.jpa.entityParser.files;
 
-import com.github.documents.dto.files.documents.ConcreteDocumentDto;
-import com.github.documents.jpa.entity.files.documents.ConcreteDocument;
-import com.github.documents.jpa.entity.files.documents.Document;
-import com.github.documents.jpa.entity.user.User;
-import com.github.documents.jpa.exceprions.IdNotFoundException;
-import com.github.documents.jpa.repository.DocumentRepository;
-import com.github.documents.jpa.repository.UserRepository;
+import documents.dto.files.documents.ConcreteDocumentDto;
+import documents.jpa.entity.files.documents.ConcreteDocument;
+import documents.jpa.entity.files.documents.Document;
+import documents.jpa.entity.user.User;
+import documents.jpa.exceprions.IdNotFoundException;
+import documents.jpa.repository.DocumentRepository;
+import documents.jpa.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

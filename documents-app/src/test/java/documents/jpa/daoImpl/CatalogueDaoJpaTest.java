@@ -1,14 +1,15 @@
 package documents.jpa.daoImpl;
 
-import com.github.documents.dao.CatalogueDao;
-import com.github.documents.dto.files.FileAbstractDto;
-import com.github.documents.dto.files.catalogues.CatalogueDto;
-import com.github.documents.jpa.daoImpl.CatalogueDaoJpa;
-import com.github.documents.jpa.entity.files.catalogues.Catalogue;
-import com.github.documents.jpa.entity.files.documents.Document;
-import com.github.documents.jpa.entityParser.files.CatalogueParser;
-import com.github.documents.jpa.exceprions.IdNotFoundException;
-import com.github.documents.jpa.repository.CatalogueRepository;
+import documents.dao.CatalogueDao;
+import documents.dto.files.FileAbstractDto;
+import documents.dto.files.catalogues.CatalogueDto;
+import documents.jpa.daoImpl.CatalogueDaoJpa;
+import documents.jpa.entity.files.catalogues.Catalogue;
+import documents.jpa.entity.files.documents.Document;
+import documents.jpa.entityParser.files.CatalogueParser;
+import documents.jpa.exceprions.IdNotFoundException;
+import documents.jpa.repository.CatalogueRepository;
+import documents.jpa.daoImpl.CatalogueDaoJpa;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

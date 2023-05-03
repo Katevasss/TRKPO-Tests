@@ -1,10 +1,10 @@
-package com.github.documents.jpa.entityParser.files;
+package documents.jpa.entityParser.files;
 
-import com.github.documents.dto.files.documents.ConcreteDocumentDto;
-import com.github.documents.dto.files.documents.DocumentTypeDto;
-import com.github.documents.jpa.entity.files.documents.ConcreteDocument;
-import com.github.documents.jpa.entity.files.documents.DocumentType;
-import com.github.documents.jpa.entityParser.files.DocumentTypeParser;
+import documents.dto.files.documents.ConcreteDocumentDto;
+import documents.dto.files.documents.DocumentTypeDto;
+import documents.jpa.entity.files.documents.ConcreteDocument;
+import documents.jpa.entity.files.documents.DocumentType;
+import documents.jpa.entityParser.files.DocumentTypeParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

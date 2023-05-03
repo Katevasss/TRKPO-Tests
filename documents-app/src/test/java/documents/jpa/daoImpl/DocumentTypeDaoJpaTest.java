@@ -1,18 +1,18 @@
-package com.github.documents.jpa.daoImpl;
+package documents.jpa.daoImpl;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
-import com.github.documents.jpa.daoImpl.DocumentTypeDaoJpa;
+import documents.jpa.daoImpl.DocumentTypeDaoJpa;
 import org.junit.jupiter.api.*;
 import org.mockito.*;
-import com.github.documents.dao.*;
-import com.github.documents.dto.files.documents.*;
-import com.github.documents.jpa.entity.files.documents.*;
-import com.github.documents.jpa.exceprions.*;
-import com.github.documents.jpa.repository.*;
+import documents.dao.*;
+import documents.dto.files.documents.*;
+import documents.jpa.entity.files.documents.*;
+import documents.jpa.exceprions.*;
+import documents.jpa.repository.*;
 
 import javax.persistence.EntityManager;
 
