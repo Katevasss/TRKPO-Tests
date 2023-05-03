@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 @DiscriminatorColumn(name = "type")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class FileAbstract{
+public class FileAbstract{
 
     @Id
     @TableGenerator(

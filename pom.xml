@@ -19,7 +19,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.github.dimka9910</groupId>
+    <groupId>com.github</groupId>
     <artifactId>digital-design-documents</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>digital-design-documents</name>
