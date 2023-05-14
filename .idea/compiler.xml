@@ -16,7 +16,13 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="TRKPO_TESTS" target="11" />
+      <module name="documents-app" target="11" />
+      <module name="documents-dao" target="11" />
+      <module name="documents-dto" target="11" />
+      <module name="documents-jpa" target="11" />
+      <module name="documents-rest" target="11" />
+      <module name="documents-service" target="11" />
+      <module name="TRKPO-Tests" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

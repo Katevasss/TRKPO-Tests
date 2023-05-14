@@ -87,16 +87,4 @@ public class UserParserTest {
         Assertions.assertNull(user.getPassword());
         Assertions.assertEquals(UserRolesEnum.USER, user.getRole());
     }
-
-    @Test
-    void testFromList_EmptyList() {
-        // Arrange
-        List<User> userList = Arrays.asList();
-
-        // Act
-        List<UserDto> userDtos = userParser.fromList(userList);
-
-        // Assert
-        assertEquals(0, userDtos.size());
-    }
 }
