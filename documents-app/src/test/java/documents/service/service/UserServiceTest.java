@@ -4,6 +4,7 @@ import documents.dao.UserDao;
 import documents.dto.user.UserDto;
 import documents.jpa.entity.user.User;
 import documents.jpa.entity.user.UserRolesEnum;
+import documents.jpa.exceprions.ConstraintsException;
 import documents.jpa.exceprions.IdNotFoundException;
 import documents.jpa.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -12,10 +13,19 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.client.ExpectedCount;
 
 import java.util.Optional;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.ExpectedCount.never;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 
 public class UserServiceTest {
 
@@ -41,8 +51,8 @@ public class UserServiceTest {
         userDto.setLogin("user");
         userDto.setPassword("password");
         userDto.setRole(UserRolesEnum.USER);
-        Mockito.when(userRepository.findUserByLogin(eq("user"))).thenReturn(Optional.of(userDto));
-        Mockito.when(userRepository.findUserByLogin(eq("nonexistinguser"))).thenReturn(Optional.empty());
+        when(userRepository.findUserByLogin(eq("user"))).thenReturn(Optional.of(userDto));
+        when(userRepository.findUserByLogin(eq("nonexistinguser"))).thenReturn(Optional.empty());
 
         Assertions.assertDoesNotThrow(() -> userService.loadUserByUsername("user"));
         Assertions.assertThrows(IdNotFoundException.class, () -> userService.loadUserByUsername("nonexistinguser"));
@@ -56,10 +66,10 @@ public class UserServiceTest {
         userDto.setPassword("password");
         userDto.setRole("USER");
 
-        Mockito.when(userDaoJpa.addNewUser(Mockito.any(UserDto.class))).thenReturn(userDto);
+        when(userDaoJpa.addNewUser(Mockito.any(UserDto.class))).thenReturn(userDto);
 
         UserDto addedUser = userService.addNewUser(userDto);
-        Assertions.assertEquals(userDto, addedUser);
+        assertEquals(userDto, addedUser);
     }
 
     @Test
@@ -70,10 +80,10 @@ public class UserServiceTest {
         userDto.setPassword("password");
         userDto.setRole("USER");
 
-        Mockito.when(userDaoJpa.getCurrentUser()).thenReturn(userDto);
+        when(userDaoJpa.getCurrentUser()).thenReturn(userDto);
 
         UserDto currentUser = userService.getCurrentUser();
-        Assertions.assertEquals(userDto, currentUser);
+        assertEquals(userDto, currentUser);
     }
 
     @Test
@@ -84,10 +94,10 @@ public class UserServiceTest {
         userDto.setPassword("password");
         userDto.setRole("USER");
 
-        Mockito.when(userDaoJpa.modifyUser(Mockito.any(UserDto.class))).thenReturn(userDto);
+        when(userDaoJpa.modifyUser(Mockito.any(UserDto.class))).thenReturn(userDto);
 
         UserDto modifiedUser = userService.modifyUser(userDto);
-        Assertions.assertEquals(userDto, modifiedUser);
+        assertEquals(userDto, modifiedUser);
     }
 
     @Test
@@ -98,8 +108,43 @@ public class UserServiceTest {
         userDto.setPassword("password");
         userDto.setRole("USER");
 
-        Mockito.when(userDaoJpa.modifyUser(Mockito.any(UserDto.class))).thenThrow(IdNotFoundException.class);
+        when(userDaoJpa.modifyUser(Mockito.any(UserDto.class))).thenThrow(IdNotFoundException.class);
 
         Assertions.assertThrows(IdNotFoundException.class, () -> userService.modifyUser(userDto));
     }
+
+    @Test
+    void testAddNewUserCheckPasswordLength() {
+        // Test case 1: password length valid
+        {
+            // Arrange
+            UserDto userDto = UserDto.builder().build();
+            userDto.setPassword("validPassword2023");
+
+            when(userDaoJpa.addNewUser(userDto)).thenReturn(userDto);
+
+            // Act
+            UserDto result = userService.addNewUser(userDto);
+
+            // Assert
+            assertNotNull(result);
+            assertEquals(userDto, result);
+            verify(userDaoJpa, times(1)).addNewUser(userDto);
+        }
+
+        // Test case 2: password length invalid
+        {
+            // Arrange
+            UserDto userDto = UserDto.builder().build();
+            userDto.setPassword("1234");
+            when(userDaoJpa.addNewUser(userDto)).thenReturn(userDto);
+
+            // Act and Assert
+            assertThrows(ConstraintsException.class, () -> userService.addNewUser(userDto));
+            verify(userDaoJpa, Mockito.never()).addNewUser(userDto);
+        }
+    }
+
+
 }
+

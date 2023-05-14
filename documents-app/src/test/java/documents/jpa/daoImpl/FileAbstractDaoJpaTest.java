@@ -23,9 +23,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,7 +32,6 @@ import static org.mockito.Mockito.*;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static java.util.List.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -61,6 +59,9 @@ public class FileAbstractDaoJpaTest {
     private FileAbstract mockFileAbstract;
     private Authentication authentication;
 
+    @InjectMocks
+    private FileAbstractDaoJpa fileAbstractDao;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -75,35 +76,23 @@ public class FileAbstractDaoJpaTest {
     }
 
     @Test
-    @DisplayName("Test checkRWAccess should return false when user doesn't have permission")
-    public void testCheckRWAccessShouldReturnFalseWhenUserDoesntHavePermission() {
+    @DisplayName("Test checkAccess")
+    public void testCheckAccess() {
         // Arrange
         FileAbstract fileAbstract = new FileAbstract();
         User user = new User();
         user.setId(1L);
         when(fileAbstractRepository.findById(1L)).thenReturn(Optional.of(fileAbstract));
         when(authentication.getPrincipal()).thenReturn(user);
-        // Act
-        boolean hasAccess = fileAbstractDaoJpa.checkRWAccess(1L);
-        // Assert
-        Assertions.assertFalse(hasAccess);
+
+        // Act and Assert
+        boolean hasReadAccess = fileAbstractDaoJpa.checkRAccess(1L);
+        boolean hasReadWriteAccess = fileAbstractDaoJpa.checkRWAccess(1L);
+
+        Assertions.assertTrue(hasReadAccess);
+        Assertions.assertFalse(hasReadWriteAccess);
     }
 
-    @Test
-    @DisplayName("Test checkRAccess should return true when user has permission")
-    public void testCheckRAccessShouldReturnTrueWhenUserHasPermission() {
-        // Arrange
-        FileAbstract fileAbstract = new FileAbstract();
-        User user = new User();
-        user.setId(1L);
-        when(fileAbstractRepository.findById(1L)).thenReturn(Optional.of(fileAbstract));
-        when(authentication.getPrincipal()).thenReturn(user);
-        //fileAbstract.setReadPermissionUsers(List.of(user));
-        // Act
-        boolean hasAccess = fileAbstractDaoJpa.checkRAccess(1L);
-        // Assert
-        Assertions.assertTrue(hasAccess);
-    }
 
     @Test
     void testCheckRWAccessIdNotFound() {
@@ -173,4 +162,50 @@ public class FileAbstractDaoJpaTest {
         verify(entityManager, times(2)).merge(any());
         verify(SecurityContextHolder.getContext().getAuthentication(), times(1)).getPrincipal();
     }
+
+    @Test
+    void testManageAccess() {
+        // Arrange
+        ManageAccessDto manageAccessDtoGrant = ManageAccessDto.builder()
+                .access(ManageAccessDto.TypeOfAccess.READ)
+                .modify(ManageAccessDto.TypeOfModifying.GRANT)
+                .fileId(1L)
+                .userId(1L)
+                .build();
+
+        ManageAccessDto manageAccessDtoRemove = ManageAccessDto.builder()
+                .access(ManageAccessDto.TypeOfAccess.READ)
+                .modify(ManageAccessDto.TypeOfModifying.DECLINE)
+                .fileId(1L)
+                .userId(1L)
+                .build();
+
+        User user = new User();
+        FileAbstract fileAbstract = new FileAbstract();
+        Set<User> readPermissionUsers = new HashSet<>();
+        readPermissionUsers.add(user);
+        fileAbstract.setReadPermissionUsers(readPermissionUsers);
+
+        when(fileAbstractRepository.findById(1L)).thenReturn(Optional.of(fileAbstract));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(userParser.fromList(anyList())).thenReturn(new ArrayList<>());
+
+        // Act and Assert
+        List<UserDto> result;
+
+        if (manageAccessDtoGrant.getModify() == ManageAccessDto.TypeOfModifying.GRANT) {
+            result = fileAbstractDao.manageAccess(manageAccessDtoGrant);
+            assertTrue(readPermissionUsers.contains(new User()));
+        } else {
+            result = fileAbstractDao.manageAccess(manageAccessDtoRemove);
+            assertFalse(readPermissionUsers.contains(user));
+        }
+
+        verify(fileAbstractRepository, times(1)).findById(1L);
+        verify(userRepository, times(1)).findById(1L);
+        verify(userParser, times(1)).fromList(anyList());
+        assertNotNull(result);
+    }
+
+
 }

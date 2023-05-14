@@ -93,6 +93,7 @@ public class DocumentDaoJpa implements DocumentDao {
             v.setParent(concreteDocument);
             em.persist(v);
         });
+
         return documentParser.EtoDTO(document);
     }
 

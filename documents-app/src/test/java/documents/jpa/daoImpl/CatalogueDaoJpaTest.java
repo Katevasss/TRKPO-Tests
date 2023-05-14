@@ -7,9 +7,11 @@ import documents.jpa.daoImpl.CatalogueDaoJpa;
 import documents.jpa.entity.files.catalogues.Catalogue;
 import documents.jpa.entity.files.documents.Document;
 import documents.jpa.entityParser.files.CatalogueParser;
+import documents.jpa.entityParser.files.DocumentParser;
 import documents.jpa.exceprions.IdNotFoundException;
 import documents.jpa.repository.CatalogueRepository;
 import documents.jpa.daoImpl.CatalogueDaoJpa;
+import documents.jpa.repository.DocumentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +37,11 @@ class CatalogueDaoJpaTest {
 
     @Mock
     private CatalogueParser catalogueParser;
+
+    @Mock
+    private DocumentRepository documentRepository;
+    @Mock
+    private DocumentParser documentParser;
 
     @Mock
     private EntityManager entityManager;
@@ -59,14 +67,6 @@ class CatalogueDaoJpaTest {
 
     @Test
     void testGetRootCatalogue() {
-        Catalogue catalogue = new Catalogue();
-        catalogue.setId(1L);
-        catalogue.setName("Test catalogue");
-
-        CatalogueDto catalogueDto = CatalogueDto.builder().build();
-        catalogueDto.setId(1L);
-        catalogueDto.setName("Test catalogue");
-
         when(catalogueRepository.getRoot()).thenReturn(Optional.of(catalogue));
         when(catalogueParser.EtoDTO(catalogue)).thenReturn(catalogueDto);
 
@@ -78,14 +78,6 @@ class CatalogueDaoJpaTest {
 
     @Test
     void testGetCatalogueById() {
-        Catalogue catalogue = new Catalogue();
-        catalogue.setId(1L);
-        catalogue.setName("Test catalogue");
-
-        CatalogueDto catalogueDto = CatalogueDto.builder().build();
-        catalogueDto.setId(1L);
-        catalogueDto.setName("Test catalogue");
-
         when(catalogueRepository.findById(1L)).thenReturn(Optional.of(catalogue));
         when(catalogueParser.EtoDTO(catalogue)).thenReturn(catalogueDto);
 
@@ -97,14 +89,6 @@ class CatalogueDaoJpaTest {
 
     @Test
     void testGetAllCatalogues() {
-        Catalogue catalogue = new Catalogue();
-        catalogue.setId(1L);
-        catalogue.setName("Test catalogue");
-
-        CatalogueDto catalogueDto = CatalogueDto.builder().build();
-        catalogueDto.setId(1L);
-        catalogueDto.setName("Test catalogue");
-
         Pageable pageable = Pageable.unpaged();
         Page<Catalogue> cataloguePage = new PageImpl<>(Collections.singletonList(catalogue), pageable, 1L);
 
@@ -130,9 +114,6 @@ class CatalogueDaoJpaTest {
 
     @Test
     void testAddCatalogue() {
-        CatalogueDto catalogueDto = CatalogueDto.builder().build();
-        Catalogue catalogue = new Catalogue();
-
         when(catalogueParser.DTOtoE(catalogueDto)).thenReturn(catalogue);
         when(catalogueParser.EtoDTO(catalogue)).thenReturn(catalogueDto);
 
@@ -166,6 +147,22 @@ class CatalogueDaoJpaTest {
         verify(catalogueRepository).findById(id);
         verify(catalogueParser).EtoDTO(existingCatalogue);
     }
+    @Test
+    void testGetAllChildren() {
+        // Arrange
+        Long catalogueId = 1L;
+        List<FileAbstractDto> expectedChildren = new ArrayList<>();
+        // Add your expected children to the expectedChildren list
 
+        when(catalogueRepository.getChildrens(anyLong())).thenReturn(new ArrayList<>());
+        when(documentRepository.getChildrens(anyLong())).thenReturn(new ArrayList<>());
+
+        // Act
+        List<FileAbstractDto> actualChildren = catalogueDao.getAllChildren(catalogueId);
+
+        // Assert
+        assertEquals(expectedChildren.size(), actualChildren.size());
+        // Add additional assertions for the content of the actualChildren list
+    }
 
 }

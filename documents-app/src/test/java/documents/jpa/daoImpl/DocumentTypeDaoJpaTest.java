@@ -13,8 +13,10 @@ import documents.dto.files.documents.*;
 import documents.jpa.entity.files.documents.*;
 import documents.jpa.exceprions.*;
 import documents.jpa.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 public class DocumentTypeDaoJpaTest {
 
@@ -26,9 +28,15 @@ public class DocumentTypeDaoJpaTest {
 
     @InjectMocks
     DocumentTypeDaoJpa documentTypeDaoJpa;
+    @Captor
+    private ArgumentCaptor<DocumentType> documentTypeCaptor;
 
+//    @InjectMocks
+//    private DocumentTypeDaoJpa documentTypeDao;
+
+    @Autowired
     @InjectMocks
-    private DocumentTypeDaoJpa documentTypeDao;
+    private DocumentTypeDao documentTypeDao = new DocumentTypeDaoJpa();
 
 
     @BeforeEach

@@ -83,4 +83,41 @@ class DocumentParserTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    public void testDTOtoE() {
+        // Mock input DTO
+        DocumentDto documentDto = DocumentDto.builder()
+                .id(1L)
+                .documentType("Test")
+                .userCreatedById(2L)
+                .priority("HIGH")
+                .parentId(3L)
+                .build();
+
+        // Mock entities
+        DocumentType documentType = new DocumentType("Test");
+        User user = new User();
+        user.setId(2L);
+
+        // Mock repository behavior
+        when(documentTypeRepository.findByName("test"))
+                .thenReturn(Optional.of(documentType))
+                .thenReturn(Optional.of(documentType)); // Adjusted expectation for 2 invocations
+        when(userRepository.findById(2L)).thenReturn(Optional.of(user));
+        when(catalogueRepository.findById(3L)).thenReturn(Optional.empty());
+
+        // Invoke the method
+        Document document = documentParser.DTOtoE(documentDto);
+
+        // Verify the interactions and assertions
+        assertEquals(1L, document.getId());
+        assertEquals(PriorityEnum.HIGH, document.getPriority());
+        assertEquals(documentType, document.getDocumentType());
+        assertEquals(user, document.getUserCreatedBy());
+        assertEquals(null, document.getParentCatalogue());
+        verify(documentTypeRepository, times(2)).findByName("test"); // Adjusted expectation for 2 invocations
+        verify(userRepository, times(1)).findById(2L);
+        verify(catalogueRepository, times(1)).findById(3L);
+    }
 }
