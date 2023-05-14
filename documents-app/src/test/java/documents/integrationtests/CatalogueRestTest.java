@@ -63,6 +63,4 @@ public class CatalogueRestTest {
                 .getForEntity("/catalogue/open/{id}?documentType=fax", Object.class, catalogueDto.getId());
         Assert.assertEquals(response4.getStatusCode(), HttpStatus.OK);
     }
-
-
 }
