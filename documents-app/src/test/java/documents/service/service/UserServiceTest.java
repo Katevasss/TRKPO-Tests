@@ -114,29 +114,35 @@ public class UserServiceTest {
     }
 
     @Test
-    void testAddNewUser_passwordLengthValid() {
-        UserDto userDto = UserDto.builder().build();
-        userDto.setPassword("validPassword2023");
+    void testAddNewUserCheckPasswordLength() {
+        // Test case 1: password length valid
+        {
+            // Arrange
+            UserDto userDto = UserDto.builder().build();
+            userDto.setPassword("validPassword2023");
 
-        when(userDaoJpa.addNewUser(userDto)).thenReturn(userDto);
+            when(userDaoJpa.addNewUser(userDto)).thenReturn(userDto);
 
-        UserDto result = userService.addNewUser(userDto);
+            // Act
+            UserDto result = userService.addNewUser(userDto);
 
-        assertNotNull(result);
-        assertEquals(userDto, result);
-        verify(userDaoJpa, times(1)).addNewUser(userDto);
-    }
+            // Assert
+            assertNotNull(result);
+            assertEquals(userDto, result);
+            verify(userDaoJpa, times(1)).addNewUser(userDto);
+        }
 
-    @Test
-    void testAddNewUser_passwordLengthInvalid() {
-        // Arrange
-        UserDto userDto = UserDto.builder().build();
-        userDto.setPassword("1234");
-        when(userDaoJpa.addNewUser(userDto)).thenReturn(userDto);
+        // Test case 2: password length invalid
+        {
+            // Arrange
+            UserDto userDto = UserDto.builder().build();
+            userDto.setPassword("1234");
+            when(userDaoJpa.addNewUser(userDto)).thenReturn(userDto);
 
-        // Act and Assert
-        assertThrows(ConstraintsException.class, () -> userService.addNewUser(userDto));
-        verify(userDaoJpa, Mockito.never()).addNewUser(userDto);
+            // Act and Assert
+            assertThrows(ConstraintsException.class, () -> userService.addNewUser(userDto));
+            verify(userDaoJpa, Mockito.never()).addNewUser(userDto);
+        }
     }
 
 
